@@ -4,9 +4,9 @@
   "exports": "./mod.js",
   "tasks": {
     // "run": "deno run -A mod.ts",
-    "run": "deno run --allow-read --allow-write --allow-net setup.js",
+    "run": "deno run --allow-read --allow-write --allow-net mod.js",
     "test": "deno test -A",
-    "setup": "deno run --allow-read --allow-write --allow-net setup.js"
+    "setup": "deno run --allow-read --allow-write --allow-net mod.js"
   },
   "compilerOptions": {
     "allowJs": true,

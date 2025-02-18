@@ -1,7 +1,39 @@
 {
   "version": "4",
   "specifiers": {
-    "npm:deno@*": "2.1.10"
+    "jsr:@std/collections@^1.0.9": "1.0.10",
+    "jsr:@std/fs@1.0.2": "1.0.2",
+    "jsr:@std/path@^1.0.3": "1.0.8",
+    "jsr:@std/toml@1.0.2": "1.0.2",
+    "jsr:@tvortsa/setup-project@*": "0.0.1",
+    "npm:deno@*": "2.1.10",
+    "npm:deno@2.1.10": "2.1.10"
+  },
+  "jsr": {
+    "@std/collections@1.0.10": {
+      "integrity": "903af106a3d92970d74e20f7ebff77d9658af9bef4403f1dc42a7801c0575899"
+    },
+    "@std/fs@1.0.2": {
+      "integrity": "af57555c7a224a6f147d5cced5404692974f7a628ced8eda67e0d22d92d474ec",
+      "dependencies": [
+        "jsr:@std/path"
+      ]
+    },
+    "@std/path@1.0.8": {
+      "integrity": "548fa456bb6a04d3c1a1e7477986b6cffbce95102d0bb447c67c4ee70e0364be"
+    },
+    "@std/toml@1.0.2": {
+      "integrity": "5892ba489c5b512265a384238a8fe8dddbbb9498b4b210ef1b9f0336a423a39b",
+      "dependencies": [
+        "jsr:@std/collections"
+      ]
+    },
+    "@tvortsa/setup-project@0.0.1": {
+      "integrity": "9cb0f55313f9f3806697c2c32f78a6f9fda11f0f8f813aefa10cdf63dc7e690d",
+      "dependencies": [
+        "jsr:@std/toml"
+      ]
+    }
   },
   "npm": {
     "@deno/darwin-arm64@2.1.10": {
