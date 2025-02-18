@@ -1,5 +1,5 @@
 {
-  "name": "@tvortsa/setup_project",
+  "name": "@tvortsa/setup-project",
   "version": "0.0.1",
   "exports": "./mod.ts",
   "tasks": {
