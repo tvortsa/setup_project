@@ -1,6 +1,8 @@
 import { parse } from "jsr:@std/toml@1.0.2";
 
 async function setupProject(options) {
+    console.log("- - - setupProject - - - ");
+    
     const { force = false, dryRun = false } = options;
     const configText = await Deno.readTextFile("setup.toml");
     const config = parse(configText);
@@ -35,6 +37,8 @@ async function createFolder(path, force, dryRun) {
 }
 
 async function createFile(path, content, force, dryRun) {
+    console.log("createFile");
+    
     try {
         if (dryRun) {
             console.log(`[DRY RUN] Would create file: ${path}`);
