@@ -32,7 +32,7 @@ assets = []
 # "deno.jsonc" = "{ \"tasks\": { \"run\": \"deno run --allow-read --allow-write setup.js\" } }"
 `;
 
-const module_version = "0.0.3"; // Задайте версию вашего модуля здесь
+const module_version = "0.1.0"; // Задайте версию вашего модуля здесь
 
 async function ensure_config_file() {
   try {

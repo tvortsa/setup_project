@@ -1,6 +1,6 @@
 {
   "name": "@tvortsa/setup_project",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "exports": "./mod.js",
   "authors": ["tvortsa"],
   "description": "Модуль для создания структуры проекта по схеме из setup.toml",
