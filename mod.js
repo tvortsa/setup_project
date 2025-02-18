@@ -18,7 +18,7 @@ docs = ["отчеты", "заметки"]
 """
 `;
 
-const module_version = "0.0.2"; // Задайте версию вашего модуля здесь
+const module_version = "0.0.3"; // Задайте версию вашего модуля здесь
 
 async function ensure_config_file() {
     try {
