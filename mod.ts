@@ -1,1 +1,1 @@
-export { createStructureFromConfig } from "./setup.js";
+export  *  from "./setup.js";
