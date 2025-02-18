@@ -1,0 +1,37 @@
+{
+  "version": "4",
+  "specifiers": {
+    "npm:deno@*": "2.1.10"
+  },
+  "npm": {
+    "@deno/darwin-arm64@2.1.10": {
+      "integrity": "sha512-95GihR+/abT2XYkbcsJ6qGL70JmbgCgiFQbLLfmbqymd7Z8RrT3YZHbASudV5EB1HlsMqq3hE180GsVUcBo+DQ=="
+    },
+    "@deno/darwin-x64@2.1.10": {
+      "integrity": "sha512-PlhYzrXy8iCR/15GHEXjuwuD1dvDn92KH94okplORS87gteFWumY/BFlPRWhoptxOj4DQHJM5YtzkpQwBephAw=="
+    },
+    "@deno/linux-arm64-glibc@2.1.10": {
+      "integrity": "sha512-DonVdhbhhZke/ue5KdBMJZKVNmM2L8kzMTUC1SBL8ad4BPMiX/AFzu7T7Y8L/HXZXClqZUjHSt8XCAW/MK3nTw=="
+    },
+    "@deno/linux-x64-glibc@2.1.10": {
+      "integrity": "sha512-9wOjZZGO0ORX0hJVQRz58v9wpMA4EwPpCIDPwvsCLy3kacIH/ufESK5OsFsjTJqwkttdv33JY+LUJqvnMRHvKg=="
+    },
+    "@deno/win32-arm64@2.1.10": {
+      "integrity": "sha512-m5VtWNKqVDcT71ohshqAk0snWtan3Bw8KURm1fI7DcWwHPiHtM8wiJrAKBiCYKn3fa0lnu25k1oJfiDpqhUf1A=="
+    },
+    "@deno/win32-x64@2.1.10": {
+      "integrity": "sha512-DgP0TukTWzwj9W8BAPv/FLZR3DfUVujpR1z66VO1oVqeImqYZ8pb8sV9quB6LjN0iyTB8IlVkkdb6nMMEFTLQw=="
+    },
+    "deno@2.1.10": {
+      "integrity": "sha512-QEKGXFx10f3zI5gBDaP6ojsepUY/jb0DVYLEGR1TVgsOSj5opxihBdv/kNSCql2Es/mcSG+PFiDOP/gWwSQxiQ==",
+      "dependencies": [
+        "@deno/darwin-arm64",
+        "@deno/darwin-x64",
+        "@deno/linux-arm64-glibc",
+        "@deno/linux-x64-glibc",
+        "@deno/win32-arm64",
+        "@deno/win32-x64"
+      ]
+    }
+  }
+}

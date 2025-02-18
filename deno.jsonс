@@ -1,0 +1,13 @@
+ 
+{
+    "tasks": {
+      "run": "deno run -A mod.ts",
+      "test": "deno test -A"
+    },
+    "compilerOptions": {
+      "allowJs": true,
+      "checkJs": false
+    },
+    "imports": {},
+    "lock": false
+  }
