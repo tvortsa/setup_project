@@ -3,7 +3,7 @@ import { setupProject } from './src/setup.js';
 import { removeProjectStructure } from './src/remove.js';
 import { displayProjectInfo } from './src/info.js';
 import { displayModuleVersion, showMenuAndGetChoice } from './src/utils.js';
-import { green } from 'jsr:@std/fmt/colors';
+import {green} from '@std/fmt/colors';
 
 async function main() {
   await ensureConfigFile();

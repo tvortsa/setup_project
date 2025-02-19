@@ -13,6 +13,7 @@
     "checkJs": false
   },
   "imports": {
+    "@std/fmt": "jsr:@std/fmt@^1.0.5",
     "@tvortsa/setup-project": "jsr:@tvortsa/setup-project@^0.1.0"
   },
   "lock": false,
