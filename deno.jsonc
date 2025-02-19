@@ -15,9 +15,9 @@
   "imports": {
     "@std/fmt": "jsr:@std/fmt@^1.0.5",
     //"@tvortsa/setup-project": "jsr:@tvortsa/setup-project@^0.1.1",
-    "jsr:@std/fs": "jsr:@std/fs@0.216.0",
+    "jsr:@std/fs": "jsr:@std/fs@1.0.13",
     "jsr:@std/toml": "jsr:@std/toml@1.0.2",
-    "jsr:@std/fmt/colors": "jsr:@std/fmt/colors@0.216.0"
+    "jsr:@std/fmt/colors": "jsr:@std/fmt@1.0.5/colors"
   },
   "lock": false,
   "license": "MIT"
