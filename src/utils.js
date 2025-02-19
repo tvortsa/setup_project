@@ -34,9 +34,10 @@ export async function removePath(path, dryRun, force) {
 export async function showMenuAndGetChoice() {
   console.log(yellow('Выберите действие:'));
   console.log('1. Создать структуру проекта');
-  console.log('2. Удалить структуру проекта');
-  console.log('3. Показать информацию о проекте');
-  console.log('4. Показать версию модуля');
+  console.log('2. Скопировать структуру текущей папки');
+  console.log('3. Удалить структуру проекта');
+  console.log('4. Показать информацию о проекте');
+  console.log('5. Показать версию модуля');
   console.log('0. Выйти');
 
   const buf = new Uint8Array(1024);
@@ -45,5 +46,5 @@ export async function showMenuAndGetChoice() {
 }
 
 export function displayModuleVersion() {
-  console.log('Версия модуля: 0.1.1');
+  console.log('Версия модуля: 0.1.2');
 }

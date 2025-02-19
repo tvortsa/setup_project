@@ -1,6 +1,6 @@
 {
   "name": "@tvortsa/setup-project",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "exports": "./mod.js",
   "tasks": {
     // "run": "deno run -A mod.ts",
@@ -14,6 +14,7 @@
   },
   "imports": {
     "@std/fmt": "jsr:@std/fmt@^1.0.5",
+    "@std/fs": "jsr:@std/fs@^1.0.13",
     //"@tvortsa/setup-project": "jsr:@tvortsa/setup-project@^0.1.1",
     "jsr:@std/fs": "jsr:@std/fs@1.0.13",
     "jsr:@std/toml": "jsr:@std/toml@1.0.2",
