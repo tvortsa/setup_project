@@ -6,6 +6,7 @@ import { displayModuleVersion, showMenuAndGetChoice } from './src/utils.js';
 import grabStructure from "./src/grab_struct.js"; "./src/grab_struct.js";
 import { runMenu } from "./src/menu.js";
 import {green} from '@std/fmt/colors';
+import {update_code} from './src/update_code.js';
 
 async function main() {
   await ensureConfigFile();
@@ -30,6 +31,9 @@ async function main() {
         break;
       case '5': 
         await displayModuleVersion();
+        break
+      case '6': 
+        await update_code();
         break
       case '0':
         console.log(green('Выход из программы.'));
