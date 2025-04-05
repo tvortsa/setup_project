@@ -1,5 +1,5 @@
-import { walk } from "jsr:@std/fs/walk";
-import { dirname, basename, extname, join } from "jsr:@std/path";
+import { walk } from "jsr:/@std/fs@^1.0.13/walk";
+import { dirname, basename, extname, join } from "jsr:@std/path@1.0.8";
 import { green, yellow, red } from 'jsr:@std/fmt/colors';
 import { parse } from 'jsr:@std/toml';
 import { exists } from 'jsr:@std/fs';
