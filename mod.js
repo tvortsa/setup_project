@@ -7,7 +7,7 @@ import grabStructure from "./src/grab_struct.js";
 import { runMenu } from "./src/menu.js";
 import {green} from '@std/fmt/colors';
 import {update_code} from './src/update_code.js';
-import combineFiles from './src/combine_files.js';
+import combine_files from './src/combine_files.js';
 
 async function main() {
   await ensureConfigFile();
@@ -37,7 +37,7 @@ async function main() {
         await update_code();
         break
       case '7':
-        await combineFiles("combined_code.txt", ".");
+        await combine_files("combined_code.txt", ".");
         break;
       case '0':
         console.log(green('Выход из программы.'));

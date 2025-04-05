@@ -18,7 +18,15 @@ exclude = [
 exclude = [
   ".env",
   ".DS_Store",
-  "combined_code.txt"
+  "combined_code_ignore.toml"
+]
+
+# Маски файлов для исключения (поддерживает * как подстановочный знак)
+[patterns]
+exclude = [
+  "combined_code*.txt",
+  "*.log",
+  "*.tmp"
 ]
 
 # Расширения файлов, которые следует исключить при объединении файлов
