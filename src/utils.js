@@ -1,6 +1,10 @@
 import { green, red, yellow } from 'jsr:@std/fmt/colors';
 import { dirname, join, fromFileUrl  } from 'jsr:@std/path@1.0.8';
 
+const currentModuleUrl = import.meta.url; // file:///path/to/your/module.js
+const currentModuleDirUrl = dirname(currentModuleUrl); // file:///path/to/your/
+const currentModuleDirPath = fromFileUrl(currentModuleDirUrl); // /path/to/your/ (or D:\path\to\your\ on Windows)
+const configFile = join(currentModuleDirPath, 'config.json'); // /path/to/your/config.json
 export async function createFolder(path, force, dryRun) {
   try {
     if (dryRun) {
@@ -49,12 +53,12 @@ export async function show_menu_and_get_choice() {
 
 export async function display_module_version() {
   try {
-    const current_dir_url = dirname(import.meta.url);
-    const current_dir = fromFileUrl(current_dir_url); // Convert to file path
-    const jsr_file_path = join(current_dir, '..', 'jsr.json');
-    const jsrFileContent = await Deno.readTextFile(jsr_file_path);
-    const jsrData = JSON.parse(jsrFileContent);
-    const version = jsrData.version;
+    // const current_dir_url = dirname(import.meta.url);
+    // const current_dir = fromFileUrl(current_dir_url); // Convert to file path
+    const deno_json_file_path = join(currentModuleDirPath, 'deno.jsonc');
+    const deno_json_file_content = await Deno.readTextFile(deno_json_file_path);
+    const json_data = JSON.parse(deno_json_file_content);
+    const version = json_data.version;
     console.log(green(`[INFO] Версия модуля: ${version}`));
   } catch (error) {
     console.error(`[ERROR] Не удалось получить версию модуля: ${error.message}`);
