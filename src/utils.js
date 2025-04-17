@@ -1,5 +1,5 @@
 import { green, red, yellow } from 'jsr:@std/fmt/colors';
-import { dirname, join, fromFileUrl  } from 'jsr:@std/path';
+import { dirname, join, fromFileUrl  } from 'jsr:@std/path@1.0.8';
 
 export async function createFolder(path, force, dryRun) {
   try {
