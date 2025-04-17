@@ -1,6 +1,6 @@
 import { walk } from "@std/fs/walk";
 
-async function grabStructure(outputFile = "grab_struct.toml", dir = ".") {
+async function grab_structure(outputFile = "grab_struct.toml", dir = ".") {
   const structure = { folders: {}, files: {} };
 
   for await (const entry of walk(dir, { includeDirs: true, includeFiles: true, followSymlinks: false })) {
@@ -31,4 +31,4 @@ async function grabStructure(outputFile = "grab_struct.toml", dir = ".") {
   console.log(`Проектная структура сохранена в ${outputFile}`);
 }
 
-export default grabStructure;
+export default grab_structure;

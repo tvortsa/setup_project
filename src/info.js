@@ -1,9 +1,9 @@
-import { loadConfig } from './config.js';
+import { load_config } from './config.js';
 import { bold, cyan } from 'jsr:@std/fmt/colors';
 
-export async function displayProjectInfo() {
+export async function display_project_info() {
   console.log(bold('- - - Информация о проекте - - - '));
-  const config = await loadConfig();
+  const config = await load_config();
 
   console.log('--- Папки ---');
   for (const [baseFolder, subFolders] of Object.entries(config.folders)) {

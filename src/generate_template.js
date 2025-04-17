@@ -46,7 +46,7 @@ async function scanTemplatesFolder(folderPath) {
   return templates;
 }
 
-export async function generateProjectFromTemplate() {
+export async function generate_project_from_template() {
   const template_dir = join(base_dir, "src", "templates", "modules");
 
   console.log("Папка текущего проекта:", base_dir);

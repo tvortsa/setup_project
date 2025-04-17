@@ -1,11 +1,11 @@
-import { loadConfig } from './config.js';
+import { load_config } from './config.js';
 import { removePath } from './utils.js';
 import { bold, red } from 'jsr:@std/fmt/colors';
 
-export async function removeProjectStructure(options) {
+export async function remove_project_structure(options) {
   console.log(bold('- - - Удаление структуры проекта - - - '));
   try {
-    const config = await loadConfig();
+    const config = await load_config();
 
     for (const [baseFolder, subFolders] of Object.entries(config.folders)) {
       for (const subFolder of subFolders) {
