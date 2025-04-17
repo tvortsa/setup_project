@@ -1,5 +1,8 @@
  
 import { green, red, yellow } from 'jsr:@std/fmt/colors';
+import { readJson } from 'jsr:@std/fs';
+import { dirname, join } from 'jsr:@std/path';
+
 export async function createFolder(path, force, dryRun) {
   try {
     if (dryRun) {
@@ -31,7 +34,8 @@ export async function removePath(path, dryRun, force) {
   }
 }
 
-export async function showMenuAndGetChoice() {
+// не используется
+export async function show_menu_and_get_choice() {
   console.log(yellow('Выберите действие:'));
   console.log('1. Создать структуру проекта');
   console.log('2. Скопировать структуру текущей папки');
@@ -46,5 +50,13 @@ export async function showMenuAndGetChoice() {
 }
 
 export function display_module_version() {
-  console.log('Версия модуля: 0.1.7');
+  try {
+    const current_dir = dirname(import.meta.url);
+    const jsr_file_path = join(current_dir, '..', 'jsr.json');
+    const jsrData = await readJson(jsr_file_path);
+    const version = jsrData.version;
+    console.log(green(`[INFO] Версия модуля: ${version}`));
+  } catch (error) {
+    console.error(`[ERROR] Не удалось получить версию модуля: ${error.message}`);
+  }
 }
