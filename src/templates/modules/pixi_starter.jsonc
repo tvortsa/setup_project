@@ -1,0 +1,13 @@
+{
+    "description": "Стартовый шаблон с PixiJS",
+    "files": [
+        {
+            "path": "index.html",
+            "content": "<!doctype html><html><head><title>PIXI Starter</title></head><body><script src=\"main.js\"></script></body></html>"
+        },
+        {
+            "path": "main.js",
+            "content": "import * as PIXI from 'https://cdn.jsdelivr.net/npm/pixi.js/dist/pixi.min.js';\n const app = new PIXI.Application(); \n document.body.appendChild(app.view);"
+        }
+    ]
+}
