@@ -1,7 +1,5 @@
- 
 import { green, red, yellow } from 'jsr:@std/fmt/colors';
-import { readJson } from 'jsr:@std/fs';
-import { dirname, join } from 'jsr:@std/path';
+import { dirname, join, fromFileUrl  } from 'jsr:@std/path';
 
 export async function createFolder(path, force, dryRun) {
   try {
@@ -49,11 +47,13 @@ export async function show_menu_and_get_choice() {
   return n ? new TextDecoder().decode(buf.subarray(0, n)).trim() : '';
 }
 
-export function display_module_version() {
+export async function display_module_version() {
   try {
-    const current_dir = dirname(import.meta.url);
+    const current_dir_url = dirname(import.meta.url);
+    const current_dir = fromFileUrl(current_dir_url); // Convert to file path
     const jsr_file_path = join(current_dir, '..', 'jsr.json');
-    const jsrData = await readJson(jsr_file_path);
+    const jsrFileContent = await Deno.readTextFile(jsr_file_path);
+    const jsrData = JSON.parse(jsrFileContent);
     const version = jsrData.version;
     console.log(green(`[INFO] Версия модуля: ${version}`));
   } catch (error) {
