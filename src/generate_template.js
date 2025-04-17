@@ -1,7 +1,7 @@
 // src/generate_template.js
 import { Select } from "jsr:@cliffy/prompt@1.0.0-rc.7";
-import { join, dirname, basename } from "jsr:@std/path";
-import { existsSync } from "jsr:@std/fs@0.224.0";
+import { join, dirname, basename } from "jsr:@std/path@1.0.8";
+import { existsSync } from "jsr:@std/fs@1.0.16";
 
 const base_dir = Deno.cwd();
 
