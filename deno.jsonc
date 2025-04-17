@@ -1,6 +1,6 @@
 {
   "name": "@tvortsa/setup-project",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "exports": "./mod.js",
   "tasks": {
     // "run": "deno run -A mod.ts",

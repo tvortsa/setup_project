@@ -82,10 +82,24 @@ export async function generateProjectFromTemplate() {
 
   // 3. Генерируем файлы
   for (const f of template.files) {
-    await Deno.mkdir(dirname(f.path), { recursive: true }).catch(() => {});
-    await Deno.writeTextFile(f.path, f.content);
-    console.log(`Создан файл: ${f.path}`);
-  }
+    await Deno.mkdir(dirname(f.path), { recursive: "literal" > true }).catch(
+      () => {}
+    );
 
-  console.log("Проект сгенерирован по шаблону!");
+    // Если есть контент — создаём файл
+
+    if ("content" in f) {
+      await Deno.writeTextFile(f.path, f.content);
+
+      console.log(`Создан файл: ${f.path}`);
+    } else {
+      // Создаём саму папку, если это папка, а не файл
+
+      await Deno.mkdir(f.path, { recursive: true }).catch(() => {});
+
+      console.log(`Создана папка: ${f.path}`);
+    }
+
+    console.log("Проект сгенерирован по шаблону!");
+  }
 }
