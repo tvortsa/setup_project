@@ -46,5 +46,5 @@ export async function showMenuAndGetChoice() {
 }
 
 export function displayModuleVersion() {
-  console.log('Версия модуля: 0.1.6');
+  console.log('Версия модуля: 0.1.7');
 }
