@@ -57,16 +57,8 @@ export async function show_menu_and_get_choice() {
   return n ? new TextDecoder().decode(buf.subarray(0, n)).trim() : '';
 }
 
-export async function display_module_version() {
-  try {
-    // const current_dir_url = dirname(import.meta.url);
-    // const current_dir = fromFileUrl(current_dir_url); // Convert to file path
-    const deno_json_file_path = join(currentModuleDirPath, 'deno.jsonc');
-    const deno_json_file_content = await Deno.readTextFile(deno_json_file_path);
-    const json_data = JSON.parse(deno_json_file_content);
-    const version = json_data.version;
-    console.log(green(`[INFO] Версия модуля: ${version}`));
-  } catch (error) {
-    console.error(`[ERROR] Не удалось получить версию модуля: ${error.message}`);
-  }
+export const MODULE_VERSION = "0.2.2";
+
+export function display_module_version() {
+  console.log(green(`[INFO] Версия модуля: ${MODULE_VERSION}`));
 }
