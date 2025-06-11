@@ -9,6 +9,7 @@ import { green } from "@std/fmt/colors";
 import { update_code } from "./src/update_code.js";
 import combine_files from "./src/combine_files.js";
 import { generate_project_from_template } from "./src/generate_template.js";
+import { split_functions_into_files } from "./src/split_functions.js";
 
 async function main() {
   await ensure_config_file();
@@ -42,6 +43,9 @@ async function main() {
         break;
       case "8":
         await generate_project_from_template();
+        break;
+      case "9":
+        await split_functions_into_files();
         break;
       case "0":
         console.log(green("Выход из программы."));
