@@ -1,9 +1,9 @@
 {
   "name": "@tvortsa/setup_project",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "exports": "./mod.js",
   "authors": ["tvortsa"],
-  "description": "Модуль для создания структуры проекта по схеме из setup.toml",
+  "description": "Модуль для создания структуры проекта по схеме, сбора всего исходного кода проекта в один файл, разбора всего кода на чанки функций для RAG",
   "repository": "https://github.com/tvortsa/setup_project",
   "license": "MIT"
 }

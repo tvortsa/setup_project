@@ -49,3 +49,6 @@ $RECYCLE.BIN/
 # Файлы конфигурации, которые могут содержать личные настройки
 *.local.json
 *.local.js
+
+# Файлы и папки, генерируемые split_functions
+__functions/

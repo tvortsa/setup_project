@@ -10,7 +10,7 @@ exclude = [
   "dist",
   "build",
   "coverage",
-  "tmp"
+  "tmp",
   "templates"
 ]
 
@@ -19,7 +19,7 @@ exclude = [
 exclude = [
   ".env",
   ".DS_Store",
-  "combined_code_ignore.toml"
+  "combined_code_ignore.toml",
   ".gitignore",
   "package-lock.json",
   "yarn.lock",

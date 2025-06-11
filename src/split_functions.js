@@ -1,9 +1,9 @@
 // src/split_functions.js
 
 import { walk } from "@std/fs/walk";
-import * as path from "@std/path";
-import { load_ignore_config, should_ignore } from "./utils/ignore_filter.js";
-import { extract_named_functions } from "./utils/extract_functions.js";
+import * as path from "jsr:@std/path@1.0.8";
+import { load_ignore_settings, should_exclude_file } from "./utils/ignore_filter.js";
+import { extract_functions } from "./utils/extract_functions.js";
 
 /**
  * Разбивает все именованные функции из исходников проекта на отдельные файлы.
@@ -18,17 +18,29 @@ export async function split_functions_into_files({
   output_dir = "./__functions",
   ignore_config_path = "./combined_code_ignore.toml"
 } = {}) {
-  const { ignore_dirs, ignore_files, ignore_globs, ignore_extensions } =
-    await load_ignore_config(ignore_config_path);
+  // Проверка наличия TOML-файла
+  try {
+    await Deno.stat(ignore_config_path);
+  } catch (e) {
+    if (e instanceof Deno.errors.NotFound) {
+      console.error(`Файл ignore_config_path не найден: ${ignore_config_path}`);
+      return;
+    } else {
+      throw e;
+    }
+  }
+
+  const { exclude_dirs, exclude_files, exclude_patterns, exclude_extensions } =
+    await load_ignore_settings(ignore_config_path);
 
   await Deno.mkdir(output_dir, { recursive: true });
 
   for await (const entry of walk(root_dir, { includeDirs: false })) {
-    if (should_ignore(entry, {
-      ignore_dirs,
-      ignore_files,
-      ignore_globs,
-      ignore_extensions
+    if (should_exclude_file(entry.path, {
+      exclude_dirs,
+      exclude_files,
+      exclude_patterns,
+      exclude_extensions
     })) {
       continue;
     }
@@ -44,7 +56,7 @@ export async function split_functions_into_files({
       continue;
     }
 
-    const functions = extract_named_functions(source);
+    const functions = extract_functions(source);
     if (functions.length === 0) continue;
 
     const rel_path = path.relative(root_dir, entry.path)
