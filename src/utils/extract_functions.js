@@ -6,8 +6,8 @@
 // вложенные функции внутри других функций.
 
 
-import { parse } from "npm:acorn";
-import { simple as walk_simple } from "npm:acorn-walk";
+import { parse } from "npm:acorn@8.15.0";
+import { simple as walk_simple } from "npm:acorn-walk@8.3.4";
 
 /**
  * Извлекает все функции из JS-кода (export и обычные)
