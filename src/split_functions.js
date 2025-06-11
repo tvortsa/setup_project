@@ -2,8 +2,8 @@
 
 import { walk } from "@std/fs/walk";
 import * as path from "@std/path";
-import { load_ignore_config, should_ignore } from "../utils/ignore_filter.js";
-import { extract_named_functions } from "../utils/extract_functions.js";
+import { load_ignore_config, should_ignore } from "./utils/ignore_filter.js";
+import { extract_named_functions } from "./utils/extract_functions.js";
 
 /**
  * Разбивает все именованные функции из исходников проекта на отдельные файлы.
