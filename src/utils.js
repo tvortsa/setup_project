@@ -1,9 +1,15 @@
 import { green, red, yellow } from 'jsr:@std/fmt/colors';
 import { dirname, join, fromFileUrl  } from 'jsr:@std/path@1.0.8';
 
-const currentModuleUrl = import.meta.url; // file:///path/to/your/module.js
-const currentModuleDirUrl = dirname(currentModuleUrl); // file:///path/to/your/
-const currentModuleDirPath = fromFileUrl(currentModuleDirUrl); // /path/to/your/ (or D:\path\to\your\ on Windows)
+const currentModuleUrl = import.meta.url;
+const currentModuleDirUrl = dirname(currentModuleUrl);
+let currentModuleDirPath;
+if (currentModuleDirUrl.startsWith("file://")) {
+  currentModuleDirPath = fromFileUrl(currentModuleDirUrl);
+} else {
+  // Если не file://, оставляем строку как есть или делаем fallback
+  currentModuleDirPath = currentModuleDirUrl;
+}
 const configFile = join(currentModuleDirPath, 'config.json'); // /path/to/your/config.json
 export async function createFolder(path, force, dryRun) {
   try {
