@@ -11,6 +11,7 @@ exclude = [
   "build",
   "coverage",
   "tmp"
+  "templates"
 ]
 
 # Файлы, которые следует исключить при объединении файлов
@@ -19,6 +20,17 @@ exclude = [
   ".env",
   ".DS_Store",
   "combined_code_ignore.toml"
+  ".gitignore",
+  "package-lock.json",
+  "yarn.lock",
+  "composer.lock",
+  "npm-debug.log",
+  "yarn-debug.log",
+  "yarn-error.log",
+  "tsconfig.json",
+  "webpack.config.js",
+  "babel.config.js",
+  "rollup.config.js",
 ]
 
 # Маски файлов для исключения (поддерживает * как подстановочный знак)

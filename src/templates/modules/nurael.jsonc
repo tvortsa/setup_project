@@ -1,0 +1,11 @@
+// закрытый шаблон проекта моего игрового движка/редактора
+// на deno-webui, PIXIjs, Orillusion
+{
+    "description": "Шаблон deno.js 2+ проекта с GUI deno-webui 2.5.8",
+    "files": [
+        {
+            "path": "deno.jsonc",
+            "content": "{\n\"name\": \"@nurael/engine\",\n\"version\": \"0.1.0\",\n\"description\": \"JS deno, webui, orillusion game editor\",\n\"main\": \"main.js\",\n\"exports\": {\n\".\": \"./main.js\"\n},\n\"tasks\": {\n\"start\": \"deno run --allow-net --allow-read --allow-write --allow-ffi --allow-run main.js\",\n\"test\": \"deno test --allow-read --allow-env tests/core/lifecycle_test.js\",\n\"test_events\": \"deno test --allow-read --allow-env tests/core/events_test.js\",\n\"test_state\": \"deno test --allow-read --allow-env tests/core/global_state_test.js\",\n\"test_webui\": \"deno test --allow-env --allow-net --allow-read --allow-ffi tests/core/webui_bridge_test.js\",\n\"game\": \"deno run --allow-net --allow-read --allow-write --allow-ffi --allow-run main.js path/to/project\"\n},\n\"dependencies\": {}\n}"
+        }
+    ]
+}
