@@ -35,6 +35,32 @@ export async function split_functions_into_files({
 
   await Deno.mkdir(output_dir, { recursive: true });
 
+  // --- Определяем имя проекта ---
+  let project_name = null;
+  // 1. Аргумент командной строки
+  const project_arg = Deno.args.find((arg) => arg.startsWith("--project-name="));
+  if (project_arg) {
+    project_name = project_arg.split("=")[1];
+  } else {
+    // 2. deno.jsonc
+    try {
+      const config_text = await Deno.readTextFile(path.join(root_dir, "deno.jsonc"));
+      const json_text = config_text.replace(/\/\/.*$/gm, "");
+      const config = JSON.parse(json_text);
+      if (config && config.name) project_name = config.name;
+    } catch (_e) {
+      // ignore
+    }
+    // 3. Имя папки
+    if (!project_name) {
+      project_name = path.basename(path.resolve(root_dir));
+    }
+  }
+
+  // --- Сохраняем project_name в __functions/__project_meta.json ---
+  const meta_path = path.join(output_dir, "__project_meta.json");
+  await Deno.writeTextFile(meta_path, JSON.stringify({ project: project_name }, null, 2));
+
   for await (const entry of walk(root_dir, { includeDirs: false })) {
     if (should_exclude_file(entry.path, {
       exclude_dirs,
