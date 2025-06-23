@@ -19,12 +19,18 @@ async function load_ignore_settings(ignore_file = "combined_code_ignore.toml") {
     extensions: { exclude: [".exe", ".dll", ".jpg", ".png", ".gif", ".mp3", ".mp4", ".zip", ".rar", ".7z", ".pdf", ".lock"] }
   };
 
+  function normalize_path(p) {
+    return p.replace(/\\/g, '/');
+  }
+
   function split_override(arr = []) {
     const override = [];
     const normal = [];
     for (const v of arr) {
       if (typeof v === 'string' && v.trim().startsWith('!')) {
-        override.push(v.trim().slice(1));
+        override.push(normalize_path(v.trim().slice(1)));
+      } else if (typeof v === 'string') {
+        normal.push(normalize_path(v));
       } else {
         normal.push(v);
       }
