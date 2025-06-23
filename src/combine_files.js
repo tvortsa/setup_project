@@ -6,7 +6,8 @@ import { exists } from 'jsr:@std/fs';
 
 /**
  * Загружает настройки исключений из файла combined_code_ignore.toml
- * 
+ * Поддержка инверсии (!имя) для override-правил.
+ *
  * @param {string} ignore_file - Путь к файлу исключений
  * @returns {Promise<Object>} - Объект с настройками исключений
  */
@@ -18,33 +19,60 @@ async function load_ignore_settings(ignore_file = "combined_code_ignore.toml") {
     extensions: { exclude: [".exe", ".dll", ".jpg", ".png", ".gif", ".mp3", ".mp4", ".zip", ".rar", ".7z", ".pdf", ".lock"] }
   };
 
+  function split_override(arr = []) {
+    const override = [];
+    const normal = [];
+    for (const v of arr) {
+      if (typeof v === 'string' && v.trim().startsWith('!')) {
+        override.push(v.trim().slice(1));
+      } else {
+        normal.push(v);
+      }
+    }
+    return { override, normal };
+  }
+
   try {
+    let settings;
     if (await exists(ignore_file)) {
       const config_text = await Deno.readTextFile(ignore_file);
-      const settings = parse(config_text);
+      settings = parse(config_text);
       console.log(green(`Загружены настройки исключений из ${ignore_file}`));
-      return {
-        exclude_dirs: settings.directories?.exclude || default_settings.directories.exclude,
-        exclude_files: settings.files?.exclude || default_settings.files.exclude,
-        exclude_patterns: settings.patterns?.exclude || default_settings.patterns.exclude,
-        exclude_extensions: settings.extensions?.exclude || default_settings.extensions.exclude
-      };
     } else {
       console.log(yellow(`Файл ${ignore_file} не найден, используются настройки по умолчанию`));
-      return {
-        exclude_dirs: default_settings.directories.exclude,
-        exclude_files: default_settings.files.exclude,
-        exclude_patterns: default_settings.patterns.exclude,
-        exclude_extensions: default_settings.extensions.exclude
-      };
+      settings = default_settings;
     }
+    // Разделяем на обычные и override-правила
+    const dirs = split_override(settings.directories?.exclude || default_settings.directories.exclude);
+    const files = split_override(settings.files?.exclude || default_settings.files.exclude);
+    const patterns = split_override(settings.patterns?.exclude || default_settings.patterns.exclude);
+    const exts = split_override(settings.extensions?.exclude || default_settings.extensions.exclude);
+    return {
+      exclude_dirs: dirs.normal,
+      override_dirs: dirs.override,
+      exclude_files: files.normal,
+      override_files: files.override,
+      exclude_patterns: patterns.normal,
+      override_patterns: patterns.override,
+      exclude_extensions: exts.normal,
+      override_extensions: exts.override
+    };
   } catch (error) {
     console.error(red(`Ошибка при загрузке настроек исключений: ${error.message}`));
+    // fallback к дефолтным
+    const dirs = split_override(default_settings.directories.exclude);
+    const files = split_override(default_settings.files.exclude);
+    const patterns = split_override(default_settings.patterns.exclude);
+    const exts = split_override(default_settings.extensions.exclude);
     return {
-      exclude_dirs: default_settings.directories.exclude,
-      exclude_files: default_settings.files.exclude,
-      exclude_patterns: default_settings.patterns.exclude,
-      exclude_extensions: default_settings.extensions.exclude
+      exclude_dirs: dirs.normal,
+      override_dirs: dirs.override,
+      exclude_files: files.normal,
+      override_files: files.override,
+      exclude_patterns: patterns.normal,
+      override_patterns: patterns.override,
+      exclude_extensions: exts.normal,
+      override_extensions: exts.override
     };
   }
 }
@@ -67,53 +95,86 @@ function match_pattern(file_name, pattern) {
 }
 
 /**
- * Проверяет, должен ли файл быть исключен на основе настроек
- * 
+ * Проверяет, должен ли файл быть исключен на основе настроек,
+ * с поддержкой override (!имя) — если совпадает с override, файл всегда включается.
+ *
  * @param {string} file_path - Путь к файлу
  * @param {Object} settings - Настройки исключений
  * @returns {boolean} - true, если файл должен быть исключен
  */
 function should_exclude_file(file_path, settings) {
-  const { exclude_dirs, exclude_files, exclude_patterns, exclude_extensions } = settings;
+  const {
+    exclude_dirs, override_dirs,
+    exclude_files, override_files,
+    exclude_patterns, override_patterns,
+    exclude_extensions, override_extensions
+  } = settings;
   const normalized_path = file_path.replace(/\\/g, '/');
   const file_name = basename(normalized_path);
-  
-  // Проверяем, находится ли файл в исключенной директории
-  for (const dir of exclude_dirs) {
-    // Проверяем разные варианты вхождения директории в путь
+
+  // --- OVERRIDE (включить несмотря на исключения) ---
+  // Директории (если путь содержит override-директорию)
+  for (const dir of override_dirs) {
     if (
-      normalized_path.includes(`/${dir}/`) || // внутри пути
-      normalized_path.startsWith(`${dir}/`) || // в начале пути
-      normalized_path === dir || // сам путь равен директории
-      normalized_path.startsWith(`./${dir}/`) // относительный путь
+      normalized_path.includes(`/${dir}/`) ||
+      normalized_path.startsWith(`${dir}/`) ||
+      normalized_path === dir ||
+      normalized_path.startsWith(`./${dir}/`) ||
+      normalized_path.endsWith(`/${dir}`)
+    ) {
+      // Включить файл
+      //console.log(green(`Override: включен файл ${file_path} (директория ${dir})`));
+      return false;
+    }
+  }
+  // Файлы (точное совпадение)
+  if (override_files.includes(file_name)) {
+    //console.log(green(`Override: включен файл ${file_path} (имя)`));
+    return false;
+  }
+  // Patterns (шаблоны)
+  for (const pattern of override_patterns) {
+    if (match_pattern(file_name, pattern)) {
+      //console.log(green(`Override: включен файл ${file_path} (шаблон ${pattern})`));
+      return false;
+    }
+  }
+  // Extensions
+  for (const ext of override_extensions) {
+    if (normalized_path.toLowerCase().endsWith(ext.toLowerCase())) {
+      //console.log(green(`Override: включен файл ${file_path} (расширение ${ext})`));
+      return false;
+    }
+  }
+
+  // --- Обычные исключения ---
+  for (const dir of exclude_dirs) {
+    if (
+      normalized_path.includes(`/${dir}/`) ||
+      normalized_path.startsWith(`${dir}/`) ||
+      normalized_path === dir ||
+      normalized_path.startsWith(`./${dir}/`)
     ) {
       console.log(yellow(`Исключен файл ${file_path} (находится в директории ${dir})`));
       return true;
     }
   }
-  
-  // Проверяем, соответствует ли имя файла списку исключений
   if (exclude_files.includes(file_name)) {
     console.log(yellow(`Исключен файл ${file_path} (в списке исключенных файлов)`));
     return true;
   }
-  
-  // Проверяем, соответствует ли файл шаблонам
   for (const pattern of exclude_patterns) {
     if (match_pattern(file_name, pattern)) {
       console.log(yellow(`Исключен файл ${file_path} (соответствует шаблону ${pattern})`));
       return true;
     }
   }
-  
-  // Проверяем расширение файла
   for (const ext of exclude_extensions) {
     if (normalized_path.toLowerCase().endsWith(ext.toLowerCase())) {
       console.log(yellow(`Исключен файл ${file_path} (имеет исключенное расширение ${ext})`));
       return true;
     }
   }
-  
   return false;
 }
 
