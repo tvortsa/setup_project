@@ -57,7 +57,7 @@ export async function show_menu_and_get_choice() {
   return n ? new TextDecoder().decode(buf.subarray(0, n)).trim() : '';
 }
 
-export const MODULE_VERSION = "0.2.4";
+export const MODULE_VERSION = "0.2.5";
 
 export function display_module_version() {
   console.log(green(`[INFO] Версия модуля: ${MODULE_VERSION}`));

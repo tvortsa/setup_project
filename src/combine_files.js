@@ -36,17 +36,17 @@ async function load_ignore_settings(ignore_file = "combined_code_ignore.toml") {
     let settings;
     if (await exists(ignore_file)) {
       const config_text = await Deno.readTextFile(ignore_file);
-      settings = parse(config_text);
+      settings = parse(config_text) || {};
       console.log(green(`Загружены настройки исключений из ${ignore_file}`));
     } else {
       console.log(yellow(`Файл ${ignore_file} не найден, используются настройки по умолчанию`));
-      settings = default_settings;
+      settings = {};
     }
-    // Разделяем на обычные и override-правила
-    const dirs = split_override(settings.directories?.exclude || default_settings.directories.exclude);
-    const files = split_override(settings.files?.exclude || default_settings.files.exclude);
-    const patterns = split_override(settings.patterns?.exclude || default_settings.patterns.exclude);
-    const exts = split_override(settings.extensions?.exclude || default_settings.extensions.exclude);
+    // Разделяем на обычные и override-правила, всегда передаём массив
+    const dirs = split_override(Array.isArray(settings.directories?.exclude) ? settings.directories.exclude : default_settings.directories.exclude);
+    const files = split_override(Array.isArray(settings.files?.exclude) ? settings.files.exclude : default_settings.files.exclude);
+    const patterns = split_override(Array.isArray(settings.patterns?.exclude) ? settings.patterns.exclude : default_settings.patterns.exclude);
+    const exts = split_override(Array.isArray(settings.extensions?.exclude) ? settings.extensions.exclude : default_settings.extensions.exclude);
     return {
       exclude_dirs: dirs.normal,
       override_dirs: dirs.override,
