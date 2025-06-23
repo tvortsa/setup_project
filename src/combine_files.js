@@ -229,7 +229,7 @@ async function generate_unique_filename(file_path) {
 export async function combine_files(
   output_file = "combined_code.txt", 
   dir = ".",
-  ignore_file = undefined // теперь по умолчанию undefined
+  ignore_file = "combined_code_ignore.toml"
 ) {
   let file_count = 0;
   let error_count = 0;
@@ -238,22 +238,8 @@ export async function combine_files(
   console.log(green(`Начинаю сканирование директории: ${dir}`));
 
   try {
-    // --- Новый блок: определяем путь к ignore-файлу ---
-    let ignorePath = ignore_file;
-    if (!ignorePath) {
-      // Сначала ищем в целевой директории
-      const candidate1 = join(dir, "combined_code_ignore.toml");
-      if (await exists(candidate1)) {
-        ignorePath = candidate1;
-      } else if (await exists("combined_code_ignore.toml")) {
-        // Затем в текущей директории
-        ignorePath = "combined_code_ignore.toml";
-      } else {
-        ignorePath = undefined; // не найден, будет использован дефолт
-      }
-    }
-    // Загружаем настройки исключений
-    const settings = await load_ignore_settings(ignorePath);
+    // Загружаем настройки исключений только по явно переданному пути или по умолчанию
+    const settings = await load_ignore_settings(ignore_file);
     
     // Создаем уникальное имя файла, если файл уже существует
     const unique_output_file = await generate_unique_filename(output_file);
