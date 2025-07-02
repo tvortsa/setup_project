@@ -126,6 +126,8 @@ function match_pattern(file_name, pattern) {
  * @param {Object} settings - Настройки исключений
  * @returns {boolean} - true, если файл должен быть исключен
  */
+const default_exclude_dirs = new Set([".git", "node_modules", ".vscode", "dist", "build"]);
+const already_logged_dirs = new Set();
 function should_exclude_file(file_path, settings) {
   const {
     exclude_dirs, override_dirs,
@@ -179,7 +181,14 @@ function should_exclude_file(file_path, settings) {
       normalized_path === dir ||
       normalized_path.startsWith(`./${dir}/`)
     ) {
-      console.log(yellow(`Исключен файл ${file_path} (находится в директории ${dir})`));
+      if (default_exclude_dirs.has(dir)) {
+        if (!already_logged_dirs.has(dir)) {
+          console.log(green(`[INFO] Пропущена стандартная папка: ${dir}`));
+          already_logged_dirs.add(dir);
+        }
+      } else {
+        console.log(yellow(`Исключен файл ${file_path} (находится в директории ${dir})`));
+      }
       return true;
     }
   }
