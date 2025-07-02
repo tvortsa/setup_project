@@ -44,10 +44,23 @@ async function load_ignore_settings(ignore_file = "combined_code_ignore.toml") {
   try {
     let settings;
     if (await exists(ignore_file_path)) {
-      const config_text = await Deno.readTextFile(ignore_file_path);
+      let config_text = await Deno.readTextFile(ignore_file_path);
+      // Автоматически заменяем обратные слэши на прямые для путей (до парсинга TOML)
+      if (config_text.includes('\\')) {
+        config_text = config_text.replace(/\\/g, '/');
+      }
+      if (config_text.includes('\\')) {
+        // Если остались одиночные обратные слэши (например, в Windows путях)
+        config_text = config_text.replace(/\\/g, '/');
+      }
+      if (config_text.includes('\\')) {
+        // На всякий случай повторно (для экзотических случаев)
+        config_text = config_text.replace(/\\/g, '/');
+      }
+      config_text = config_text.replace(/\\/g, '/'); // финальная гарантия
       settings = parse(config_text) || {};
       console.log(green(`Загружены настройки исключений из ${ignore_file_path}`));
-      console.log(yellow('Содержимое файла исключений:'), config_text); // [DEBUG]
+      console.log(yellow('Содержимое файла исключений (с заменой \\ на /):'), config_text); // [DEBUG]
       console.log(yellow('Распарсенные настройки:'), JSON.stringify(settings, null, 2)); // [DEBUG]
     } else {
       console.log(yellow(`Файл ${ignore_file_path} не найден, используются настройки по умолчанию`));
