@@ -11,7 +11,8 @@ exclude = [
   "build",
   "coverage",
   "tmp",
-  "templates"
+  "templates",
+  "__test_exclude_folder"
 ]
 
 # Файлы, которые следует исключить при объединении файлов

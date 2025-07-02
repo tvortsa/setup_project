@@ -38,14 +38,19 @@ async function load_ignore_settings(ignore_file = "combined_code_ignore.toml") {
     return { override, normal };
   }
 
+  // --- ГЛАВНОЕ ИЗМЕНЕНИЕ: всегда ищем файл игнора в рабочей директории пользователя ---
+  const ignore_file_path = join(Deno.cwd(), ignore_file);
+
   try {
     let settings;
-    if (await exists(ignore_file)) {
-      const config_text = await Deno.readTextFile(ignore_file);
+    if (await exists(ignore_file_path)) {
+      const config_text = await Deno.readTextFile(ignore_file_path);
       settings = parse(config_text) || {};
-      console.log(green(`Загружены настройки исключений из ${ignore_file}`));
+      console.log(green(`Загружены настройки исключений из ${ignore_file_path}`));
+      console.log(yellow('Содержимое файла исключений:'), config_text); // [DEBUG]
+      console.log(yellow('Распарсенные настройки:'), JSON.stringify(settings, null, 2)); // [DEBUG]
     } else {
-      console.log(yellow(`Файл ${ignore_file} не найден, используются настройки по умолчанию`));
+      console.log(yellow(`Файл ${ignore_file_path} не найден, используются настройки по умолчанию`));
       settings = {};
     }
     // Разделяем на обычные и override-правила, всегда передаём массив

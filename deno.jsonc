@@ -1,12 +1,14 @@
 {
   "name": "@tvortsa/setup-project",
-   "version": "0.2.70", // изменить также в utils.js d :export const MODULE_VERSION = "0.2.2";
+   "version": "0.2.71", // изменить также в utils.js d :export const MODULE_VERSION = "0.2.2";
   "exports": "./mod.js",
   "tasks": {
     // "run": "deno run -A mod.ts",
     "run": "deno run --allow-read --allow-write --allow-net mod.js",
     "test": "deno test -A",
-    "setup": "deno run --allow-read --allow-write --allow-net mod.js"
+    "setup": "deno run --allow-read --allow-write --allow-net mod.js",
+    "version_up": "deno run --allow-read --allow-write update_version.js",
+    "ver_up": "deno run --allow-read --allow-write update_version.js"
   },
   "compilerOptions": {
     "allowJs": true,
